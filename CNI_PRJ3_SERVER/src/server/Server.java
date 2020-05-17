@@ -2,6 +2,7 @@ package server;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,7 +31,10 @@ public class Server {
 	public String readCmd(String cmd) throws IOException {
 		String s[] = cmd.split(" ");
 		if (s[0].equals("REQ")) {
-			return getNextVCode(Integer.valueOf(s[1]));
+			if (isAdmin(s[1], s[2]))
+				return getNextVCode(Integer.valueOf(s[3]));
+			else
+				return "FAI";
 		}
 		if (s[0].equals("VER")) {
 			if (verified(s[1], s[2]))
@@ -112,6 +116,25 @@ public class Server {
 
 	public String getLatestVCode() {
 		return String.valueOf(vCodes.get(vCodes.size() - 1).getvCode());
+	}
+
+	private boolean isAdmin(String ID, String Pass) {
+		try {
+			try (RandomAccessFile myFile = new RandomAccessFile("UserPass.dat", "r")) {
+				String line;
+				while ((line = myFile.readLine()) != null) {
+					if (line.split(" ")[0] == ID) {
+						if (line.split(" ")[1] == Pass) {
+							return true;
+						} else
+							return false;
+					}
+				}
+				return false;
+			}
+		} catch (IOException e) {
+			return false;
+		}
 	}
 }
 
