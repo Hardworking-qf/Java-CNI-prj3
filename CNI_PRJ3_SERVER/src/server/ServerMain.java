@@ -24,7 +24,7 @@ public class ServerMain {
 				System.out.println("1、列出所有识别码");
 				System.out.println("2、创建新识别码");
 				try {
-					switch (scanner.nextInt()) {
+					switch (Integer.valueOf(scanner.nextLine())) {
 					case 1:
 						s.ShowAllvCodes();
 						break;
@@ -33,11 +33,11 @@ public class ServerMain {
 						int usernum;
 						while (true) {
 							try {
-								usernum = scanner.nextInt();
-								s.getNextVCode(usernum);
-								System.out.println("新识别码：" + s.getLatestVCode());
+								usernum = Integer.valueOf(scanner.nextLine());
+								System.out.println("新识别码：" + s.getNextVCode(usernum));
 								break;
 							} catch (Exception e) {
+								System.out.println("请输入正确的人数");
 							}
 						}
 					}

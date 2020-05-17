@@ -32,7 +32,7 @@ public class Server {
 		String s[] = cmd.split(" ");
 		if (s[0].equals("REQ")) {
 			if (isAdmin(s[1], s[2]))
-				return getNextVCode(Integer.valueOf(s[3].trim()));
+				return getNextVCode(Integer.valueOf(s[3]));
 			else
 				return "FAI";
 		}
@@ -119,9 +119,8 @@ public class Server {
 	}
 
 	private boolean isAdmin(String ID, String Pass) {
-		System.out.println(ID + Pass);
 		try {
-			try (RandomAccessFile myFile = new RandomAccessFile("UserPass.txt", "r")) {
+			try (RandomAccessFile myFile = new RandomAccessFile("UserPass.dat", "r")) {
 				String line;
 				while ((line = myFile.readLine()) != null) {
 					if (line.split(" ")[0].equals(ID)) {
